@@ -1,11 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./App.css";
 
-import { Button, Label, Library, SideBar, Card } from "./components";
+import {
+  Button,
+  Label,
+  Library,
+  SideBar,
+  Card,
+  LibraryCover,
+} from "./components";
+import { api } from "./services";
+import * as GlobalTypes from "./types/global";
 
 function App() {
   const [isSideBarExpanded, setIsSideBarExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [library, setLibrary] = useState<GlobalTypes.Library>([]);
+
+  useEffect(() => {
+    async function fetchInitApp() {
+      try {
+        const response = await api.initializeApp();
+        setLibrary(response.data.library);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    }
+    fetchInitApp();
+  }, []);
 
   const onShowMoreClick = () => {
     setIsSideBarExpanded(true);
@@ -34,6 +58,23 @@ function App() {
               <Button onClick={onShowLessClick}>Show less</Button>
             ) : (
               <Button onClick={onShowMoreClick}>Show more</Button>
+            )}
+            {isLoading ? (
+              <Label>loading records...</Label>
+            ) : (
+              <>
+                {library.map((record) => (
+                  <Button>
+                    <LibraryCover
+                      src={record.cover}
+                      alt={record.name}
+                      size="small"
+                    />
+                    <Label>{record.name}</Label>
+                    <Label>{record.credits}</Label>
+                  </Button>
+                ))}
+              </>
             )}
           </Library>
         </Card>
