@@ -1,0 +1,14 @@
+.container {
+  border: 1px solid red;
+  height: 100%;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  transition: width 100ms ease-in;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.is-expanded {
+  width: 40vw;
+}
