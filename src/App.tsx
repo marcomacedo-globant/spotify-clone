@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import "./App.css";
+import "./assets/fonts/fonts.css";
 
 import {
   Button,
@@ -9,9 +10,14 @@ import {
   SideBar,
   Card,
   LibraryCover,
+  Icon,
+  LibrarySongName,
+  LibrarySongCredits,
+  Headline,
 } from "./components";
 import { api } from "./services";
 import * as GlobalTypes from "./types/global";
+import { FlexBox } from "./components/utils";
 
 function App() {
   const [isSideBarExpanded, setIsSideBarExpanded] = useState(false);
@@ -44,34 +50,60 @@ function App() {
       <SideBar isExpanded={isSideBarExpanded}>
         <Card className="side-bar-header">
           <Button>
+            <Icon name="home" />
             <Label>Home</Label>
           </Button>
           <Button>
+            <Icon name="search" />
             <Label>Search</Label>
           </Button>
         </Card>
 
         <Card>
           <Library>
-            <Label>Your Library</Label>
-            {isSideBarExpanded ? (
-              <Button onClick={onShowLessClick}>Show less</Button>
-            ) : (
-              <Button onClick={onShowMoreClick}>Show more</Button>
-            )}
+            <FlexBox justifyContent="space-between">
+              <Button>
+                <Icon name="book" />
+                <Label>Your Library</Label>
+              </Button>
+              <FlexBox gap="0">
+                <Button>
+                  <Icon name="plus" />
+                </Button>
+                {isSideBarExpanded ? (
+                  <Button onClick={onShowLessClick}>
+                    <Icon name="arrow-left2" />
+                  </Button>
+                ) : (
+                  <Button onClick={onShowMoreClick}>
+                    <Icon name="arrow-right2" />
+                  </Button>
+                )}
+              </FlexBox>
+            </FlexBox>
             {isLoading ? (
               <Label>loading records...</Label>
             ) : (
               <>
                 {library.map((record) => (
                   <Button>
-                    <LibraryCover
-                      src={record.cover}
-                      alt={record.name}
-                      size="small"
-                    />
-                    <Label>{record.name}</Label>
-                    <Label>{record.credits}</Label>
+                    <FlexBox>
+                      <LibraryCover
+                        src={record.cover}
+                        alt={record.name}
+                        size="small"
+                      />
+                      <FlexBox
+                        direction="column"
+                        alignItems="flex-start"
+                        gap="0.25rem"
+                      >
+                        <LibrarySongName>{record.name}</LibrarySongName>
+                        <LibrarySongCredits>
+                          {record.credits}
+                        </LibrarySongCredits>
+                      </FlexBox>
+                    </FlexBox>
                   </Button>
                 ))}
               </>
@@ -79,6 +111,64 @@ function App() {
           </Library>
         </Card>
       </SideBar>
+
+      <main>
+        <FlexBox justifyContent="space-between">
+          <div>
+            <Icon name="arrow-left2" />
+            <Icon name="arrow-right2" />
+          </div>
+          <div>
+            <Icon name="bell" />
+            <Icon name="user" />
+            <Icon name="users" />
+          </div>
+        </FlexBox>
+
+        <FlexBox direction="column" alignItems="flex-start">
+          <Headline as="h1" variant="main">
+            Good afternoon
+          </Headline>
+          {library.map((record) => (
+            <Card>
+              <FlexBox>
+                <LibraryCover src={record.cover} alt="" />
+                <LibrarySongName>{record.name}</LibrarySongName>
+              </FlexBox>
+            </Card>
+          ))}
+        </FlexBox>
+
+        <FlexBox direction="column" alignItems="flex-start">
+          <Headline as="h2" variant="sub">
+            Your top mixes
+          </Headline>
+          {library.map((record) => (
+            <Card>
+              <FlexBox direction="column" alignItems="flex-start">
+                <LibraryCover src={record.cover} alt="" />
+                <LibrarySongName>{record.name}</LibrarySongName>
+                <LibrarySongCredits>{record.credits}</LibrarySongCredits>
+              </FlexBox>
+            </Card>
+          ))}
+        </FlexBox>
+
+        <FlexBox direction="column" alignItems="flex-start">
+          <Headline as="h2" variant="sub">
+            Made for you
+          </Headline>
+          {library.map((record) => (
+            <Card>
+              <FlexBox direction="column" alignItems="flex-start">
+                <LibraryCover src={record.cover} alt="" />
+                <LibrarySongName>{record.name}</LibrarySongName>
+                <LibrarySongCredits>{record.credits}</LibrarySongCredits>
+              </FlexBox>
+            </Card>
+          ))}
+        </FlexBox>
+      </main>
     </>
   );
 }

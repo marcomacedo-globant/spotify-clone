@@ -1,10 +1,12 @@
 import React, { ReactNode } from "react";
 import styles from "./label.module.scss";
+import classNames from "classnames";
 
-type LabelProps = {
+export type LabelProps = {
   children: ReactNode;
+  className?: string;
 };
 
-export const Label = ({ children }: LabelProps) => {
-  return <p className={styles.label}>{children}</p>;
+export const Label = ({ className, children }: LabelProps) => {
+  return <p className={classNames(styles.label, className)}>{children}</p>;
 };

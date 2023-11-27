@@ -159,3 +159,9 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+main {
+  width: 100%;
+  padding: 1rem 0 1rem 1rem;
+  background-color: var(--background-highlight);
+}
