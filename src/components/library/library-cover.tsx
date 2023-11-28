@@ -4,7 +4,7 @@ import styles from "./library.module.scss";
 type LibraryCoverProps = {
   src: string;
   alt: string;
-  size?: "small";
+  size?: "small" | "fluid-width";
 };
 
 export const LibraryCover = ({

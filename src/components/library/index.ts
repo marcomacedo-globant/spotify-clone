@@ -1,2 +1,8 @@
-export { Library, LibrarySongCredits, LibrarySongName } from "./library";
+export {
+  Library,
+  LibrarySongCredits,
+  LibrarySongName,
+  LibraryLoadingRecord,
+  LibraryLoadingShorcut,
+} from "./library";
 export { LibraryCover } from "./library-cover";
